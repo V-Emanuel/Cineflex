@@ -1,11 +1,22 @@
 import styled from "styled-components";
 import React from "react";
 import Rota from "./Rota";
+import Header from "./Header";
+import Sections from "./Sections"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 function App() {
   return (
-    <MainContainer>
-      <Rota/>
-    </MainContainer>
+    <BrowserRouter>
+      <Header />
+      <MainContainer>
+        <Routes>
+          <Route path="/" element={<Rota />} />
+          <Route path="/sessoes/:idFilme" element={<Sections />} />
+        </Routes>
+      </MainContainer>
+    </BrowserRouter>
+
   );
 }
 
@@ -17,7 +28,4 @@ const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  //margin: 0px;
-  //padding: 0px;
-  //padding-bottom: 200px;
 `;

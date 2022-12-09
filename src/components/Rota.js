@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { urlMovies } from "../constants/API";
+import { Link } from "react-router-dom";
 
 export default function Rota() {
     const [movies, setMovies] = useState([]);
@@ -13,35 +14,21 @@ export default function Rota() {
 
     return (
         <>
-            <Topo><h1>CINEFLEX</h1></Topo>
             <MoviesList>
                 <p>Selecione o filme</p>
+
                 <div>
-                {movies.map(item => <ContainerMovie><img src={item.posterURL}></img></ContainerMovie>)}
+                    {movies.map(item => <Link key={movies.id} to={`/sessoes/${item.id}`}>
+                        <ContainerMovie><img src={item.posterURL}></img></ContainerMovie>
+                    </Link>)}
                 </div>
+
+
             </MoviesList>
         </>
     );
 }
 
-const Topo = styled.div`
-    background-color: #C3CFD9;
-    width: 100vw;
-    height: 67px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    h1{
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 34px;
-        line-height: 40px;
-        color: #E8833A;
-}
-
-`;
 const MoviesList = styled.div`
 width: 100%;
 height: 100%;
@@ -49,6 +36,7 @@ display: flex;
 justify-content: center;
 flex-direction: column;
 p{
+    height: 60px;
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
@@ -59,7 +47,6 @@ p{
     justify-content: center;
     text-align: center;
     color: #293845;
-    background-color: red;
 }
 div{
     display: flex;
