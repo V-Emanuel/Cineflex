@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React from "react";
 import Rota from "./Rota";
 import Header from "./Header";
 import Sections from "./Sections"
+import Seats from "./Seats";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Rota />} />
           <Route path="/sessoes/:idFilme" element={<Sections/>} />
+          <Route path="/assentos/:idSessao" element={<Seats/>}/>
         </Routes>
       </MainContainer>
     </BrowserRouter>

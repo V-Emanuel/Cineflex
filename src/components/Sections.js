@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { React, useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 export default function Sections() {
     
@@ -20,7 +20,9 @@ export default function Sections() {
             <SectionContainer>
                 {section.map((item) => 
                      <><Date>{item.weekday} - {item.date}</Date>
-                     <Schedules>{item.showtimes.map( time => <Time><p>{time.name}</p></Time>)}</Schedules></>
+                     <Schedules>{item.showtimes.map( time => 
+                     <Link key={item.id} to={`/assentos/${item.id}`}><Time><p>{time.name}</p></Time></Link>)}
+                     </Schedules></>
                 )}
          </SectionContainer>
          <Footer>
@@ -80,16 +82,18 @@ const Time = styled.div`
     justify-content: center;
     align-items: center;
     margin-right: 15px;
-    p{
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 21px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #FFFFFF;
+   
+    p{   
+        text-decoration: none;
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 21px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: #FFFFFF;
     }
 `;
 const Footer = styled.footer`
