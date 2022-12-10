@@ -4,13 +4,13 @@ import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 
 export default function Sections() {
-    
+
     const [selectedMovie, setSelectedMovie] = useState([]);
     const [section, setSection] = useState([]);
     const { idFilme } = useParams();
     useEffect(() => {
         const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilme}/showtimes`)
-        promise.then((ans) => { setSection(ans.data.days)})
+        promise.then((ans) => { setSection(ans.data.days) })
         promise.then((ans) => setSelectedMovie(ans.data))
     }, [])
 
@@ -18,17 +18,17 @@ export default function Sections() {
         <>
             <Title>Selecione o Horário</Title>
             <SectionContainer>
-                {section.map((item) => 
-                     <><Date>{item.weekday} - {item.date}</Date>
-                     <Schedules>{item.showtimes.map( time => 
-                     <Link key={item.id} to={`/assentos/${item.id}`}><Time><p>{time.name}</p></Time></Link>)}
-                     </Schedules></>
+                {section.map((item) =>
+                    <><Date>{item.weekday} - {item.date}</Date>
+                        <Schedules>{item.showtimes.map(time =>
+                            <Link key={item.id} to={`/assentos/${time.id}`}><Time><p>{time.name}</p></Time></Link>)}
+                        </Schedules></>
                 )}
-         </SectionContainer>
-         <Footer>
-           <div><img src={selectedMovie.posterURL}></img></div>
-            <p>{selectedMovie.title}</p>
-        </Footer>
+            </SectionContainer>
+            <Footer>
+                <div><img src={selectedMovie.posterURL}></img></div>
+                <p>{selectedMovie.title}</p>
+            </Footer>
         </>
     );
 }
