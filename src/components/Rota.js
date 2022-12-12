@@ -4,7 +4,7 @@ import axios from "axios";
 import { urlMovies } from "../constants/API";
 import { Link } from "react-router-dom";
 
-export default function Rota() {
+export default function Rota({info, setInfo}) {
     const [movies, setMovies] = useState([]);
     //
     useEffect(() => {
@@ -18,7 +18,7 @@ export default function Rota() {
                 <p>Selecione o filme</p>
                 <div>
                     {movies.map(item => <Link key={item.id} to={`/sessoes/${item.id}`}>
-                        <ContainerMovie><img src={item.posterURL}></img></ContainerMovie>
+                        <ContainerMovie onClick={() => setInfo({...info, movie: item.title})}><img src={item.posterURL}></img></ContainerMovie>
                     </Link>)}
                 </div>
             </MoviesList>

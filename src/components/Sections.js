@@ -3,7 +3,7 @@ import { React, useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 
-export default function Sections() {
+export default function Sections({info, setInfo}) {
 
     const [selectedMovie, setSelectedMovie] = useState([]);
     const [section, setSection] = useState([]);
@@ -21,7 +21,11 @@ export default function Sections() {
                 {section.map((item) =>
                     <><Date>{item.weekday} - {item.date}</Date>
                         <Schedules>{item.showtimes.map(time =>
-                            <Link key={item.id} to={`/assentos/${time.id}`}><Time><p>{time.name}</p></Time></Link>)}
+                            <Link key={item.id} to={`/assentos/${time.id}`}>
+                                <Time onClick={() => setInfo({...info, date: item.date, hour: time.name})}>
+                                    <p>{time.name}</p>
+                                </Time>
+                            </Link>)}
                         </Schedules></>
                 )}
             </SectionContainer>

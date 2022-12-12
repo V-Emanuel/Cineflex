@@ -1,22 +1,26 @@
 import styled from "styled-components";
-import React from "react";
+import{React, useState} from "react";
 import Rota from "./Rota";
 import Header from "./Header";
 import Sections from "./Sections"
 import Seats from "./Seats";
+import Sucess from "./Sucess";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
 function App() {
   
+  const [info, setInfo] = useState("");
+
   return (
     <BrowserRouter>
       <Header />
       <MainContainer>
         <Routes>
-          <Route path="/" element={<Rota />} />
-          <Route path="/sessoes/:idFilme" element={<Sections/>} />
-          <Route path="/assentos/:idSessao" element={<Seats/>}/>
+          <Route path="/" element={<Rota info={info} setInfo={setInfo}/>} />
+          <Route path="/sessoes/:idFilme" element={<Sections info={info} setInfo={setInfo}/>} />
+          <Route path="/assentos/:idSessao" element={<Seats info={info} setInfo={setInfo}/>}/>
+          <Route path="/sucesso" element={<Sucess info={info}/>}/>
         </Routes>
       </MainContainer>
     </BrowserRouter>

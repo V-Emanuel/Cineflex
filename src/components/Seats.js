@@ -1,14 +1,19 @@
 import styled from "styled-components";
 import { React, useState, useEffect } from "react";
 import axios from "axios";
-import { useParams, Link } from "react-router-dom";
+import { useParams,  useNavigate } from "react-router-dom";
 
-export default function Seats() {
+export default function Seats({info, setInfo}) {
 
     const { idSessao } = useParams();
     const [selectedMovie, setSelectedMovie] = useState([]);
     const [day, setDay] = useState([]);
     const [seat, setSeat] = useState([]);
+    const [cpf, setCpf] = useState('');
+    const [nome, setNome] = useState('');
+    const [chair, setChair] = useState([])
+    const [id, setId] = useState([])
+    const navigate = useNavigate();
 
     useEffect(() => {
         const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`)
@@ -17,10 +22,37 @@ export default function Seats() {
         promise.then((ans) => setSeat(ans.data.seats))
     }, [])
 
+    function verificar(name, isAvailable, idSeat) {
+        const clicado = chair.includes(name)
+        if (!clicado && isAvailable) {
+            setChair([...chair, name])
+            setId([...id, idSeat])
+        } else {
+            setChair(chair.filter(a => a !== name))
+            setId(id.filter(a => a !== idSeat))
+        }
+
+        if (isAvailable === false) {
+            alert("Esse assento não está disponível")
+        }
+    }
+    function Jorge(){
+        navigate("/sucesso");
+        setInfo({ ...info, assento: chair, id:id, nome: nome, cpf: cpf})
+    }
     return (
         <Body>
             <Title>Selecione o(s) assento(s)</Title>
-            <Assentos>{seat.map((item) => <Seat>{item.name}</Seat>)}</Assentos>
+            <Assentos>{seat.map((item) => 
+                 <div
+                 key={item.id}
+                 data-test="seat"
+                 className={chair.includes(item.name) && item.isAvailable ? "selected" : item.isAvailable ? "available" : "unavailable"}
+                 onClick={() => verificar(item.name, item.isAvailable, item.id)}>
+                 {item.name}
+             </div>
+            )}
+            </Assentos>
             <Options>
                 <div><Selected></Selected><p>Selecionado</p></div>
                 <div><Available></Available><p>Disponível</p></div>
@@ -28,11 +60,13 @@ export default function Seats() {
             </Options>
             <Inputs>
             <p>Nome do Comprador</p>
-            <input placeholder="Digite seu nome..."></input>
+            <form>
+            <input type="text" placeholder="Digite seu nome..."  onChange={e => setNome(e.target.value)}></input>
             <p>CPF do Comprador</p>
-            <input placeholder="Digite seu CPF..."></input>
+            <input type="number" placeholder="Digite seu CPF..."  onChange={e => setCpf(e.target.value)}></input>
+            </form>
             </Inputs>
-            <Reserve><p>Reservar assento(s)</p></Reserve>
+                <Reserve onClick ={Jorge}><p>Reservar assento(s)</p></Reserve>
             <Footer>
                 <div><img src={selectedMovie.posterURL}></img></div>
                 <span><p>{selectedMovie.title}</p>
@@ -69,19 +103,29 @@ const Assentos = styled.div`
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
-`;
-const Seat = styled.div`
-    width: 26px;
-    height: 26px;
-    background-color: #C3CFD9;
-    border: 1px solid #808F9D;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 5px;
-    margin-bottom: 10px;
-    
+    div{
+        width: 26px;
+        height: 26px;
+        border: 1px solid #808F9D;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 5px;
+        margin-bottom: 10px;
+        &:hover{
+            cursor: pointer;
+        }
+    }
+    .available{
+        background: #C3CFD9;
+    }
+    .unavailable{
+        background: #FBE192;
+    }
+    .selected{
+        background:  #1AAE9E;
+    }
 `;
 const Footer = styled.footer`
     width: 100%;
@@ -200,7 +244,6 @@ const Inputs = styled.div`
         box-sizing: border-box;
     }
 `;
-
 const Reserve = styled.div`
     width: 225px;
     height: 42px;
