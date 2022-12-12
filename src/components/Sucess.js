@@ -1,29 +1,31 @@
 import styled from "styled-components";
-import { React, useState} from "react";
-import {Link} from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 
-export default function Sucess({info}){
+export default function Sucess({ info }) {
 
     return (
         <Body>
-         <Title>Pedido feito com sucesso!</Title>
-         <Informations>
-            <div>
-                <h1>Filme e sessão</h1>
-                <h2>{info.movie}</h2>
-                <h2>{info.date} - {info.hour}</h2>
-            </div>
-            <div>
-                <h1>Ingressos</h1>
-                <>{info.assento.map((item) => <h2>Assento: {item}</h2>)} </>
-            </div>
-            <div>
-                <h1>Comprador</h1>
-                <h2>Nome: {info.nome}</h2>
-                <h2>CPF: {info.cpf}</h2>
-            </div>
-         </Informations>
-         <Link to="/"><BackHome><p>Voltar para Home</p></BackHome></Link>
+            <Title>Pedido feito com sucesso!</Title>
+            <Informations>
+                <div data-test="movie-info">
+                    <h1>Filme e sessão</h1>
+                    <h2>{info.movie}</h2>
+                    <h2>{info.date} - {info.hour}</h2>
+                </div>
+                <div data-test="seats-info">
+                    <h1>Ingressos</h1>
+                    <>{info.assento.map((item) => <h2>Assento: {item}</h2>)} </>
+                </div>
+                <div data-test="client-info">
+                    <h1>Comprador</h1>
+                    <h2>Nome: {info.nome}</h2>
+                    <h2>CPF: {info.cpf}</h2>
+                </div>
+            </Informations>
+            <Link to="/"><BackHome data-test="go-home-btn">
+                <p>Voltar para Home</p>
+            </BackHome></Link>
         </Body>
     );
 }

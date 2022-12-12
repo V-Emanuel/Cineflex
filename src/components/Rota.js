@@ -17,7 +17,9 @@ export default function Rota({info, setInfo}) {
                 <p>Selecione o filme</p>
                 <div>
                     {movies.map(item => <Link key={item.id} to={`/sessoes/${item.id}`}>
-                        <ContainerMovie onClick={() => setInfo({...info, movie: item.title})}><img src={item.posterURL}></img></ContainerMovie>
+                        <ContainerMovie data-test="movie" onClick={() => setInfo({...info, movie: item.title})}>
+                            <img src={item.posterURL}></img>
+                        </ContainerMovie>
                     </Link>)}
                 </div>
             </MoviesList>

@@ -19,17 +19,17 @@ export default function Sections({info, setInfo}) {
             <Title>Selecione o Horário</Title>
             <SectionContainer>
                 {section.map((item) =>
-                    <><Date>{item.weekday} - {item.date}</Date>
+                    <div data-test="movie-day"><Date>{item.weekday} - {item.date}</Date>
                         <Schedules>{item.showtimes.map(time =>
                             <Link key={item.id} to={`/assentos/${time.id}`}>
-                                <Time onClick={() => setInfo({...info, date: item.date, hour: time.name})}>
+                                <Time data-test="showtime" onClick={() => setInfo({...info, date: item.date, hour: time.name})}>
                                     <p>{time.name}</p>
                                 </Time>
                             </Link>)}
-                        </Schedules></>
+                        </Schedules></div>
                 )}
             </SectionContainer>
-            <Footer>
+            <Footer data-test="footer">
                 <div><img src={selectedMovie.posterURL}></img></div>
                 <p>{selectedMovie.title}</p>
             </Footer>

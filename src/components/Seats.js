@@ -43,11 +43,11 @@ export default function Seats({ info, setInfo }) {
         }
     }
     function Data() {
-		const requisicao = axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", {
-			ids: info.id,
+        const requisicao = axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", {
+            ids: info.id,
             name: name,
-			cpf: cpf
-		});
+            cpf: cpf
+        });
     }
     return (
         <Body>
@@ -70,13 +70,25 @@ export default function Seats({ info, setInfo }) {
             <Inputs>
                 <p>Nome do Comprador</p>
                 <form onSubmit={Data}>
-                    <input type="text" value={name} placeholder="Digite seu nome..." onChange={e => setName(e.target.value)}></input>
+                    <input
+                        type="text"
+                        value={name}
+                        placeholder="Digite seu nome..."
+                        onChange={e => setName(e.target.value)}
+                        data-test="client-name"></input>
                     <p>CPF do Comprador</p>
-                    <input type="number" value={cpf} placeholder="Digite seu CPF..." onChange={e => setCpf(e.target.value)}></input>
+                    <input
+                        type="number"
+                        value={cpf}
+                        placeholder="Digite seu CPF..."
+                        onChange={e => setCpf(e.target.value)}
+                        data-test="client-cpf"></input>
                 </form>
             </Inputs>
-            <Reserve onClick={ChangePage}><p>Reservar assento(s)</p></Reserve>
-            <Footer>
+            <Reserve data-test="book-seat-btn" onClick={ChangePage}>
+                <p>Reservar assento(s)</p>
+            </Reserve>
+            <Footer data-test="footer">
                 <div><img src={selectedMovie.posterURL}></img></div>
                 <span><p>{selectedMovie.title}</p>
                     <p>{day.weekday} - {day.date}</p></span>
