@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { urlMovies } from "../constants/API";
 import { Link } from "react-router-dom";
 
 export default function Rota({info, setInfo}) {
     const [movies, setMovies] = useState([]);
     //
     useEffect(() => {
-        const promise = axios.get(urlMovies)
+        const promise = axios.get("https://mock-api.driven.com.br/api/v8/cineflex/movies")
         promise.then(answer => { (setMovies(answer.data)) })
     }, [])
 

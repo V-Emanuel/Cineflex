@@ -1,16 +1,16 @@
 import styled from "styled-components";
 import { React, useState, useEffect } from "react";
 import axios from "axios";
-import { useParams,  useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
-export default function Seats({info, setInfo}) {
+export default function Seats({ info, setInfo }) {
 
     const { idSessao } = useParams();
     const [selectedMovie, setSelectedMovie] = useState([]);
     const [day, setDay] = useState([]);
     const [seat, setSeat] = useState([]);
     const [cpf, setCpf] = useState('');
-    const [nome, setNome] = useState('');
+    const [name, setName] = useState('');
     const [chair, setChair] = useState([])
     const [id, setId] = useState([])
     const navigate = useNavigate();
@@ -22,7 +22,7 @@ export default function Seats({info, setInfo}) {
         promise.then((ans) => setSeat(ans.data.seats))
     }, [])
 
-    function verificar(name, isAvailable, idSeat) {
+    function Verify(name, isAvailable, idSeat) {
         const clicado = chair.includes(name)
         if (!clicado && isAvailable) {
             setChair([...chair, name])
@@ -36,21 +36,30 @@ export default function Seats({info, setInfo}) {
             alert("Esse assento não está disponível")
         }
     }
-    function Jorge(){
-        navigate("/sucesso");
-        setInfo({ ...info, assento: chair, id:id, nome: nome, cpf: cpf})
+    function ChangePage() {
+        if (chair.length !== 0 && name !== "" && cpf !== "") {
+            setInfo({ ...info, assento: chair, id: id, nome: name, cpf: cpf })
+            navigate("/sucesso");
+        }
+    }
+    function Data() {
+		const requisicao = axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", {
+			ids: info.id,
+            name: name,
+			cpf: cpf
+		});
     }
     return (
         <Body>
             <Title>Selecione o(s) assento(s)</Title>
-            <Assentos>{seat.map((item) => 
-                 <div
-                 key={item.id}
-                 data-test="seat"
-                 className={chair.includes(item.name) && item.isAvailable ? "selected" : item.isAvailable ? "available" : "unavailable"}
-                 onClick={() => verificar(item.name, item.isAvailable, item.id)}>
-                 {item.name}
-             </div>
+            <Assentos>{seat.map((item) =>
+                <div
+                    key={item.id}
+                    data-test="seat"
+                    className={chair.includes(item.name) && item.isAvailable ? "selected" : item.isAvailable ? "available" : "unavailable"}
+                    onClick={() => Verify(item.name, item.isAvailable, item.id)}>
+                    {item.name}
+                </div>
             )}
             </Assentos>
             <Options>
@@ -59,14 +68,14 @@ export default function Seats({info, setInfo}) {
                 <div><Unavailable></Unavailable><p>Indisponível</p></div>
             </Options>
             <Inputs>
-            <p>Nome do Comprador</p>
-            <form>
-            <input type="text" placeholder="Digite seu nome..."  onChange={e => setNome(e.target.value)}></input>
-            <p>CPF do Comprador</p>
-            <input type="number" placeholder="Digite seu CPF..."  onChange={e => setCpf(e.target.value)}></input>
-            </form>
+                <p>Nome do Comprador</p>
+                <form onSubmit={Data}>
+                    <input type="text" value={name} placeholder="Digite seu nome..." onChange={e => setName(e.target.value)}></input>
+                    <p>CPF do Comprador</p>
+                    <input type="number" value={cpf} placeholder="Digite seu CPF..." onChange={e => setCpf(e.target.value)}></input>
+                </form>
             </Inputs>
-                <Reserve onClick ={Jorge}><p>Reservar assento(s)</p></Reserve>
+            <Reserve onClick={ChangePage}><p>Reservar assento(s)</p></Reserve>
             <Footer>
                 <div><img src={selectedMovie.posterURL}></img></div>
                 <span><p>{selectedMovie.title}</p>
@@ -254,7 +263,6 @@ const Reserve = styled.div`
     align-items: center;
     justify-content: center;
     p{
-
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
@@ -262,4 +270,7 @@ const Reserve = styled.div`
     line-height: 21px;
     color: #FFFFFF;
     }
+    &:hover{
+            cursor: pointer;
+        }
 `;
