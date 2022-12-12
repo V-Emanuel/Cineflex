@@ -48,6 +48,7 @@ export default function Seats({ info, setInfo }) {
             name: name,
             cpf: cpf
         });
+        requisicao.then(() => navigate("/")) 
     }
     return (
         <Body>
@@ -67,9 +68,10 @@ export default function Seats({ info, setInfo }) {
                 <div><Available></Available><p>Disponível</p></div>
                 <div><Unavailable></Unavailable><p>Indisponível</p></div>
             </Options>
+            <form onSubmit={Data}>
             <Inputs>
                 <p>Nome do Comprador</p>
-                <form onSubmit={Data}>
+                
                     <input
                         type="text"
                         value={name}
@@ -83,12 +85,13 @@ export default function Seats({ info, setInfo }) {
                         placeholder="Digite seu CPF..."
                         onChange={e => setCpf(e.target.value)}
                         data-test="client-cpf"></input>
-                </form>
+                
             </Inputs>
-            <Reserve data-test="book-seat-btn" onClick={ChangePage}>
+            <Reserve type="submit" data-test="book-seat-btn" onClick={ChangePage}>
                 <p>Reservar assento(s)</p>
             </Reserve>
-            <Footer>
+            </form>
+            <Footer data-test="footer">
                 <div><img data-test="footer" src={selectedMovie.posterURL}></img></div>
                 <span><p data-test="footer" >{selectedMovie.title}</p>
                     <p>{day.weekday} - {day.date}</p></span>
@@ -102,7 +105,14 @@ const Body = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
+    form{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
 `;
 const Title = styled.p`
     height: 60px;
@@ -158,9 +168,6 @@ const Footer = styled.footer`
     display: flex;
     align-items: center;
     padding-left: 40px;
-    position: fixed;
-    left: 0px;
-    bottom: 0px;
     div{
     width: 64px;
     height: 89px;
@@ -265,7 +272,7 @@ const Inputs = styled.div`
         box-sizing: border-box;
     }
 `;
-const Reserve = styled.div`
+const Reserve = styled.button`
     width: 225px;
     height: 42px;
     border-radius: 3px;
@@ -274,6 +281,7 @@ const Reserve = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    border-color: none;
     p{
     font-family: 'Roboto';
     font-style: normal;
