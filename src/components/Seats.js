@@ -88,9 +88,9 @@ export default function Seats({ info, setInfo }) {
             <Reserve data-test="book-seat-btn" onClick={ChangePage}>
                 <p>Reservar assento(s)</p>
             </Reserve>
-            <Footer data-test="footer">
-                <div><img src={selectedMovie.posterURL}></img></div>
-                <span><p>{selectedMovie.title}</p>
+            <Footer>
+                <div><img data-test="footer" src={selectedMovie.posterURL}></img></div>
+                <span><p data-test="footer" >{selectedMovie.title}</p>
                     <p>{day.weekday} - {day.date}</p></span>
             </Footer>
         </Body>
