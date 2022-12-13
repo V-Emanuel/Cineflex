@@ -30,8 +30,8 @@ export default function Sections({info, setInfo}) {
                 )}
             </SectionContainer>
             <Footer data-test="footer">
-                <div><img src={selectedMovie.posterURL}></img></div>
-                <p>{selectedMovie.title}</p>
+                <div><img data-test="footer" src={selectedMovie.posterURL}></img></div>
+                <p data-test="footer" >{selectedMovie.title}</p>
             </Footer>
         </>
     );
