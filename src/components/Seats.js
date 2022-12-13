@@ -94,7 +94,7 @@ export default function Seats({ info, setInfo }) {
             <Footer data-test="footer">
                 <div><img data-test="footer" src={selectedMovie.posterURL}></img></div>
                 <span><p data-test="footer" >{selectedMovie.title}</p>
-                    <p>{day.weekday} - {day.date}</p></span>
+                    <p data-test="footer">{day.weekday} - {day.date}</p></span>
             </Footer>
         </Body>
     );
