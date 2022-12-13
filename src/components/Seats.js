@@ -36,19 +36,19 @@ export default function Seats({ info, setInfo }) {
             alert("Esse assento não está disponível")
         }
     }
-    function ChangePage() {
+    function Data(event) {
+        event.preventDefault();
         if (chair.length !== 0 && name !== "" && cpf !== "") {
             setInfo({ ...info, assento: chair, id: id, nome: name, cpf: cpf })
             navigate("/sucesso");
-        }
-    }
-    function Data() {
-        const requisicao = axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", {
-            ids: info.id,
+            const requisicao = axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", {
+            ids: id,
             name: name,
             cpf: cpf
         });
-        requisicao.then(() => navigate("/")) 
+        requisicao.then(() => navigate("/sucesso"))
+        }
+       
     }
     return (
         <Body>
@@ -87,7 +87,7 @@ export default function Seats({ info, setInfo }) {
                         data-test="client-cpf"></input>
                 
             </Inputs>
-            <Reserve type="submit" data-test="book-seat-btn" onClick={ChangePage}>
+            <Reserve type="submit" data-test="book-seat-btn">
                 <p>Reservar assento(s)</p>
             </Reserve>
             </form>
